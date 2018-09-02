@@ -60,6 +60,14 @@ WARNING
     "tmp/cache/assets"
   end
 
+  def public_packs_folder
+    "public/packs"
+  end
+
+  def default_webpacker_cache
+    "tmp/cache/webpacker"
+  end
+
   def cleanup
     super
     return if assets_compile_enabled?
@@ -81,7 +89,9 @@ WARNING
         topic("Preparing app for Rails asset pipeline")
 
         @cache.load_without_overwrite public_assets_folder
+        @cache.load_without_overwrite public_packs_folder
         @cache.load default_assets_cache
+        @cache.load default_webpacker_cache
 
         precompile.invoke(env: rake_env)
 
@@ -94,10 +104,11 @@ WARNING
             puts "Cleaning assets"
             clean_task.invoke(env: rake_env)
 
-            cleanup_assets_cache
-            @cache.store public_assets_folder
-            @cache.store default_assets_cache
-          end
+          cleanup_assets_cache
+          @cache.store public_assets_folder
+          @cache.store public_packs_folder
+          @cache.store default_assets_cache
+          @cache.store default_webpacker_cache
         else
           precompile_fail(precompile.output)
         end
