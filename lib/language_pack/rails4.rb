@@ -104,11 +104,12 @@ WARNING
             puts "Cleaning assets"
             clean_task.invoke(env: rake_env)
 
-          cleanup_assets_cache
-          @cache.store public_assets_folder
-          @cache.store public_packs_folder
-          @cache.store default_assets_cache
-          @cache.store default_webpacker_cache
+            cleanup_assets_cache
+            @cache.store public_assets_folder
+            @cache.store public_packs_folder
+            @cache.store default_assets_cache
+            @cache.store default_webpacker_cache
+          end
         else
           precompile_fail(precompile.output)
         end
